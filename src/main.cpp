@@ -1,13 +1,6 @@
 #include <iostream>
 #include <string>
-extern "C" {
-    #include <libavcodec/avcodec.h>
-    #include <libavdevice/avdevice.h>
-    #include <libavformat/avformat.h>
-    #include <libavutil/avutil.h>
-    #include <libavfilter/avfilter.h>
-    #include <GLFW/glfw3.h> 
-}
+
 #include "tools/display_texture.h"
 #include "tools/load_ffmpeg.h"
 
@@ -47,8 +40,6 @@ int main(int, char**){
         glfwSwapBuffers(window);
         glfwWaitEvents();
     }
-    
-    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     return 0;
 }
 

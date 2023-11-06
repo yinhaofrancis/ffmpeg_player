@@ -1,16 +1,17 @@
 #include "load_ffmpeg.h"
 
 
-bool load_frame(const char *path,int *width,int *height,const char * data){
-    return false;
-}
 
-RawFrame::RawFrame(int width,int height,int countOfColorComponent,uint8_t* buffer):buffer(buffer),width(width),height(height),countOfColorComponent(countOfColorComponent){}
+
+RawFrame::RawFrame(int width,
+                    int height,
+                    int countOfColorComponent,
+                    uint8_t* buffer):buffer(buffer),width(width),height(height),countOfColorComponent(countOfColorComponent){}
 RawFrame::~RawFrame(){
     delete[] this->buffer;
 }
 
-VideoSource::VideoSource(const char *path):path(path){}
+
 
 std::shared_ptr<RawFrame> VideoSource::next(){
 
@@ -33,4 +34,13 @@ std::shared_ptr<RawFrame> VideoSource::next(){
     }
     std::shared_ptr result = std::make_shared<RawFrame>(100,100,3,pix);
     return result;
+}
+VideoSource::VideoSource(const char *path):path(path){
+    this->avcontext = avformat_alloc_context();
+    if(this->avcontext == nullptr){
+        throw VideoSourceError("create avformatcontext");
+    }
+}
+VideoSource ::~VideoSource(){
+    avformat_free_context(this->avcontext);
 }

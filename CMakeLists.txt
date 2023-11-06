@@ -24,7 +24,13 @@ list(APPEND EXTRA_LIBS
     "-framework CoreGraphics"
     "-framework IOKIT"
     "-framework AppKit"
-    "-framework OpenGl")
+    "-framework OpenGl"
+    "-framework AudioToolBox"
+    "-framework VideoToolBox"
+    "-framework CoreVideo"
+    "-framework CoreMedia"
+    "-framework Security"
+    "-framework avfoundation")
 list(APPEND ALL_LINK
     test1 
     avcodec 
@@ -32,7 +38,13 @@ list(APPEND ALL_LINK
     avfilter 
     avformat 
     avutil 
+    swresample
+    swscale
     glfw3 
+    iconv
+    z
+    bz2
+    lzma
     ${EXTRA_LIBS}
 )
 target_link_libraries(${ALL_LINK})
