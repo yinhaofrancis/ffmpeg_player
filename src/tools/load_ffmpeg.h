@@ -16,7 +16,7 @@ extern "C" {
 
 struct VideoSourceError {
     std::string message;
-    VideoSourceError(const char* errorMessage):message(errorMessage){}
+    VideoSourceError(std::string errorMessage):message(errorMessage){}
 };
 
 
@@ -26,6 +26,8 @@ public:
     RawFrame(int width,int height,int countOfColorComponent,unsigned char *buffer);
     friend class VideoSource;
     friend class DisplayTexture;
+    int getWidth();
+    int getHeight();
 private:
     int width,height,countOfColorComponent;
     uint8_t * buffer;
@@ -35,7 +37,12 @@ private:
 class VideoSource {
 private:
     const char *path;
-    AVFormatContext *avcontext;
+    AVFormatContext *format_ctx;
+    AVCodecContext *video_codec_ctx;
+    AVCodecContext *audio_codec_ctx;
+    int video_stream_index;
+    int audio_stream_index;
+    AVCodecContext * createCodecContext(AVStream *stream);
 public:
     VideoSource(const char *path);
     ~VideoSource();

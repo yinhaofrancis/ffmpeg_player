@@ -27,16 +27,17 @@ int main(int, char**){
     
     auto display = DisplayTexture();
     
-    int frame_x = 100,frame_y = 100;
     int frame_w,frame_h;
-    auto source = VideoSource("");
+    auto source = VideoSource("/Users/haoyin/Desktop/aaaaa.mov");
     
     while (!glfwWindowShouldClose(window))
     {
         int width,height;
         glfwGetFramebufferSize(window, &width, &height);
         auto frame = source.next();
-        display.display(frame,{frame_x,frame_y,500,500},{width,height});
+        if(frame != nullptr){
+            display.display(frame,{0,0,frame->getWidth(),frame->getHeight()},{width,height});
+        }
         glfwSwapBuffers(window);
         glfwWaitEvents();
     }
