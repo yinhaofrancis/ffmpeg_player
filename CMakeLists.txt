@@ -19,5 +19,20 @@ list(APPEND SOURCES
 
 set(CMAKE_CXX_STANDARD 17)
 add_executable(test1 ${SOURCES})
-list(APPEND EXTRA_LIBS "-framework Foundation -framework CoreGraphics -framework IOKIT -framework AppKit -framework OpenGl")
-target_link_libraries(test1 avcodec avdevice avfilter avformat avutil glfw3 ${EXTRA_LIBS})
+list(APPEND EXTRA_LIBS 
+    "-framework Foundation"
+    "-framework CoreGraphics"
+    "-framework IOKIT"
+    "-framework AppKit"
+    "-framework OpenGl")
+list(APPEND ALL_LINK
+    test1 
+    avcodec 
+    avdevice 
+    avfilter 
+    avformat 
+    avutil 
+    glfw3 
+    ${EXTRA_LIBS}
+)
+target_link_libraries(${ALL_LINK})
