@@ -1,4 +1,7 @@
 #include "load_ffmpeg.h"
+extern "C"{
+    #include <libswscale/swscale.h>
+}
 
 
 
@@ -16,7 +19,7 @@ int RawFrame::getWidth(){
 int RawFrame::getHeight(){
     return this->height;
 }
-std::shared_ptr<RawFrame> VideoSource::next(){
+std::shared_ptr<RawFrame> VideoSource::next(int width_dest){
 
     auto packet = av_packet_alloc();
     auto frame = av_frame_alloc();
@@ -36,25 +39,38 @@ std::shared_ptr<RawFrame> VideoSource::next(){
     }else{
         return nullptr;
     }
-    int buffer_size = frame->width * frame->height * 3;
-    int width = frame->width;
-    int height = frame->height;
-    uint8_t  *pix = new uint8_t[buffer_size];
-    for (size_t i = 0; i < frame->width; i++)
-    {
-        for (size_t j = 0; j < frame->height; j++)
-        {
-            pix[j * frame->width * 3 + i * 3] = frame->data[0][j * frame->linesize[0] + i];
-            pix[j * frame->width * 3 + i * 3 + 1] = frame->data[0][j * frame->linesize[0] + i];
-            pix[j * frame->width * 3 + i * 3 + 2] = frame->data[0][j * frame->linesize[0] + i];
-        }
-    }
-    av_packet_free(&packet);
-    av_frame_free(&frame);
+    int buffer_size = frame->width * frame->height * 4;
     if(buffer_size == 0){
+        av_packet_free(&packet);
+        av_frame_free(&frame);
         return nullptr;
     }
-    std::shared_ptr result = std::make_shared<RawFrame>(width,height,3,pix);
+    int width = frame->width;
+    int height = frame->height;
+    int height_dest = height;
+    if(width_dest <= 0){
+        width_dest = width;
+    }else{
+        double ratio = (double)height / width;
+        height_dest = width_dest * ratio;
+    }
+    uint8_t  *pix = new uint8_t[buffer_size];
+    SwsContext* sws_context = sws_getContext(
+        width,
+        height,
+        this->video_codec_ctx->pix_fmt,
+        width_dest,
+        height_dest,
+        AV_PIX_FMT_RGB0,
+        SWS_BILINEAR,NULL,NULL,NULL);
+
+    uint8_t* dest[4] = {pix,0,0,0};
+    int dest_linezize[4] = {width * 4,0,0,0};
+    sws_scale(sws_context,frame->data,frame->linesize,0,frame->height,dest,dest_linezize);
+    std::shared_ptr result = std::make_shared<RawFrame>(width,height,4,pix);
+    av_packet_free(&packet);
+    av_frame_free(&frame);
+    sws_freeContext(sws_context);
     return result;
 }
 VideoSource::VideoSource(const char *path):path(path){

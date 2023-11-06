@@ -11,7 +11,7 @@ GLuint loadPixelToTexture(int frame_w,int frame_h,const void * pix){
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
-    glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,frame_w,frame_h,0,GL_RGB,GL_UNSIGNED_BYTE,pix);
+    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,frame_w,frame_h,0,GL_RGBA,GL_UNSIGNED_BYTE,pix);
     return display_texture;
 }
 

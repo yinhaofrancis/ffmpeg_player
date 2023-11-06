@@ -46,7 +46,7 @@ private:
 public:
     VideoSource(const char *path);
     ~VideoSource();
-    std::shared_ptr<RawFrame>next();
+    std::shared_ptr<RawFrame>next(int width = 0);
 };
 
 #endif

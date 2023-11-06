@@ -20,6 +20,7 @@ int main(int, char**){
     }
 
     auto window = glfwCreateWindow(640,360,"title",NULL,NULL);
+    
     if(!window){
         return 1;
     }
@@ -28,18 +29,20 @@ int main(int, char**){
     auto display = DisplayTexture();
     
     int frame_w,frame_h;
-    auto source = VideoSource("/Users/haoyin/Desktop/aaaaa.mov");
+    auto source = VideoSource("/Users/haoyin/Desktop/aaaa.mov");
     
     while (!glfwWindowShouldClose(window))
     {
         int width,height;
         glfwGetFramebufferSize(window, &width, &height);
-        auto frame = source.next();
+        auto frame = source.next(1280);
         if(frame != nullptr){
-            display.display(frame,{0,0,frame->getWidth(),frame->getHeight()},{width,height});
+            display.display(frame,{0,0,frame->getWidth() ,frame->getHeight()},{width,height});
+            std::cout<< "display\n";
         }
+        
         glfwSwapBuffers(window);
-        glfwWaitEvents();
+        glfwPollEvents();
     }
     return 0;
 }
