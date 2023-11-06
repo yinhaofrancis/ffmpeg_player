@@ -1,0 +1,14 @@
+prefix=/Users/haoyin/Downloads/ffmpeg/out
+exec_prefix=${prefix}
+libdir=/Users/haoyin/Downloads/ffmpeg/out/lib
+includedir=/Users/haoyin/Downloads/ffmpeg/out/include
+
+Name: libswscale
+Description: FFmpeg image rescaling library
+Version: 7.4.100
+Requires: libavutil >= 58.27.100
+Requires.private: 
+Conflicts:
+Libs: -L${libdir}  -lswscale -lm
+Libs.private: 
+Cflags: -I${includedir}

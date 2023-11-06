@@ -1,0 +1,14 @@
+prefix=/Users/haoyin/Downloads/ffmpeg/out
+exec_prefix=${prefix}
+libdir=/Users/haoyin/Downloads/ffmpeg/out/lib
+includedir=/Users/haoyin/Downloads/ffmpeg/out/include
+
+Name: libavformat
+Description: FFmpeg container format library
+Version: 60.15.100
+Requires: libavcodec >= 60.30.102, libswresample >= 4.11.100, libavutil >= 58.27.100
+Requires.private: 
+Conflicts:
+Libs: -L${libdir}  -lavformat -lm -lbz2 -lz -Wl,-framework,CoreFoundation -Wl,-framework,Security
+Libs.private: 
+Cflags: -I${includedir}
