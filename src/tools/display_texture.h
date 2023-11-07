@@ -11,8 +11,10 @@ struct FrameRect{
     int x,y,w,h;
 };
 
+
 struct FrameSize{
     int w,h;
+    static const FrameSize zero() { return {0,0};}
 };
 
 class DisplayTexture{

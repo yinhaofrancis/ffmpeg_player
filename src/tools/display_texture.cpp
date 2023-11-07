@@ -17,22 +17,23 @@ GLuint loadPixelToTexture(int frame_w,int frame_h,const void * pix){
 
 void displayTexture(int frame_x,int frame_y,int frame_w,int frame_h,int window_w,int window_h, GLuint display_texture){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(0,0,0,0);
+    glClearColor(0,0,0,0);
 
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(0, window_w, window_h, 0, -1, 1);
-        glMatrixMode(GL_MODELVIEW);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0, window_w, window_h, 0, -1, 1);
+    glMatrixMode(GL_MODELVIEW);
 
-        glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D,display_texture);
-        glBegin(GL_QUADS);
-            glTexCoord2d(0,0);glVertex2d(frame_x,frame_y);
-            glTexCoord2d(0,1);glVertex2d(frame_x,frame_y + frame_h);
-            glTexCoord2d(1,1);glVertex2d(frame_x + frame_w,frame_y + frame_h);
-            glTexCoord2d(1,0);glVertex2d(frame_x + frame_w,frame_y);
-        glEnd();
-        glDisable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,display_texture);
+    glBegin(GL_QUADS);
+        glTexCoord2d(0,0);glVertex2d(frame_x,frame_y);
+        glTexCoord2d(0,1);glVertex2d(frame_x,frame_y + frame_h);
+        glTexCoord2d(1,1);glVertex2d(frame_x + frame_w,frame_y + frame_h);
+        glTexCoord2d(1,0);glVertex2d(frame_x + frame_w,frame_y);
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+    glDeleteTextures(1, &display_texture);
 }
 
 void DisplayTexture::display(std::shared_ptr<RawFrame> &frame,FrameRect rect,FrameSize size){
